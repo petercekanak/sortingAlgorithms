@@ -1,0 +1,129 @@
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+
+
+public class BubbleSort {
+	
+	public static void main(String[] args) {
+		
+		Scanner vyberSortu = new Scanner(System.in);
+		System.out.println("Ak chceš použiť Bublinkové triedenie, napíš 1 a ENTER." + "\n" + "Ak chceš použiť Selection sort, napíš 2 a ENTER" + "\n" + "Ak chceš použiť Quick sort, napíš 3 a ENTER");
+		int sort = vyberSortu.nextInt();
+		
+		int velkostPola = 100000;
+		int najvacsieCisloPola = 100000;
+		
+		if (sort == 1) {
+			//BUBBLE SORT
+			long startTime = System.nanoTime(); //zaznamenanie casu na zaciatku spustenia programu
+			int[] pole = new int[velkostPola]; //vytvorenie pola s X prvkami
+			
+			for (int i = 0; i < pole.length; i++) { //cyklus pre priradenie nahodnej hodnoty kazdemu miestu v poli
+				pole[i] = (int)(Math.random() * (najvacsieCisloPola - 0 + 1));
+	        }
+			BubbleSort.bubblesort(pole); 	//privolanie metody bubble sort
+			System.out.println(Arrays.toString(pole)); //vypisanie zoradeneho pola
+			long endTime = System.nanoTime(); //zaznamenanie casu v momente skoncenia programu
+			System.out.println("Vykonanie bublinkoveho triedenia s " + velkostPola + " prvkami, pričom najväčšie číslo v poli je " + najvacsieCisloPola + ", trvalo " + (endTime - startTime) + " nanosekund");
+		}
+		
+		else if (sort == 2) {
+			//SELECTION SORT
+			long startTime = System.nanoTime();
+			int[] pole = new int[velkostPola]; //vytvorenie pola s X prvkami
+			
+			for (int i = 0; i < pole.length; i++) { //cyklus pre priradenie nahodnej hodnoty kazdemu miestu v poli
+				pole[i] = (int)(Math.random() * (najvacsieCisloPola - 0 + 1));
+	        }
+			
+			BubbleSort.selectionsort(pole);	//privolanie metody selection sort
+			System.out.println(Arrays.toString(pole));	//vypisanie zoradeneho pola
+			long endTime = System.nanoTime();	//zaznamenanie casu v momente skoncenia programu
+			System.out.println("Vykonanie selection sortu s " + velkostPola + " prvkami, pričom najväčšie číslo v poli je " + najvacsieCisloPola + ", trvalo " + (endTime - startTime) + " nanosekund");
+			
+		}
+		
+		else if (sort == 3) {
+			//QUICK SORT
+			long startTime = System.nanoTime(); //zaznamenanie casu na zaciatku spustenia programu
+			int[] pole = new int[velkostPola]; //vytvorenie pola s X prvkami
+			
+			for (int i = 0; i < pole.length; i++) { //cyklus pre priradenie nahodnej hodnoty kazdemu miestu v poli
+				pole[i] = (int)(Math.random() * (najvacsieCisloPola - 0 + 1));
+	        }
+			
+			BubbleSort.quicksort(pole, 0, pole.length-1);	//privolanie metody quick sort
+		    System.out.println(Arrays.toString(pole));	//vypisanie zoradeneho pola
+		    long endTime = System.nanoTime();	//zaznamenanie casu v momente skoncenia programu
+		    System.out.println("Vykonanie quick sortu s " + velkostPola + " prvkami, pričom najväčšie číslo v poli je " + najvacsieCisloPola + ", trvalo " + (endTime - startTime) + " nanosekund");
+		}
+	}
+	
+	//BUBBLE SORT
+	public static void bubblesort(int[] pole) {
+		
+		int premenna = 0;
+		for(int x = 0; x < pole.length - 1; x++) { //mnozstvo poli -1, najvacsie cislo sa odhali kazdym cyklom
+			
+			for (int y = 0; y < pole.length -1 -x; y++) { //porovnavanie poli, zaciatok pole 0
+				if(pole[y] > pole[y+1]) {	//ak je pole 0 vacsie ako 1
+					premenna = pole[y];	//ulozenie int pola 0 do premennej
+					pole[y] = pole [y + 1];	//swap poli
+					pole[y + 1] = premenna;	//ulozenie premennej (povodne pole 0) do pola 1
+				}
+			}
+		}
+	}
+	
+	//SELECTION SORT
+	public static void selectionsort(int[] pole) {
+		for (int x = 0; x < pole.length; x++) {
+			
+			int minValue = pole[x];
+			for (int y = x; y < pole.length; y++) {
+				
+				if (minValue > pole[y]) {
+					int premena = minValue;
+					minValue = pole[y];
+					pole[y] = premena;
+					pole[x] = minValue;
+				}
+			}
+		}
+	}
+	
+	//QUICK SORT
+	public static void quicksort(int[] pole, int zaciatok, int koniec) {
+	    int pivot; 
+	    int x;
+	    int y;
+	    int premena;
+
+	    if (zaciatok < koniec) {
+	      pivot = zaciatok;
+	      x = zaciatok;
+	      y = koniec;
+
+	      while (x < y) {
+	        while (pole[x] <= pole[pivot] && x < koniec)
+	          x++;
+	        while (pole[y] > pole[pivot] && y >= 0)
+	          y--;
+	        
+	        if (x < y) {
+	          premena = pole[x];
+	          pole[x] = pole[y];
+	          pole[y] = premena;
+	        }
+	      }
+	      
+	      premena = pole[pivot];
+	      pole[pivot] = pole[y];
+	      pole[y] = premena;
+
+	      quicksort(pole, zaciatok, y - 1);
+	      quicksort(pole, y + 1, koniec);
+	    }
+	}
+}
